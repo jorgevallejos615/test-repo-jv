@@ -1,0 +1,149 @@
+2026-09-03 11:05:06,943 - INFO - Starting CSV parse for data\raw_cities_dirty.csv
+2026-09-03 11:05:06,944 - INFO - Parsed city row: New York
+2026-09-03 11:05:06,944 - INFO - Parsed city row: London
+2026-09-03 11:05:06,944 - INFO - Parsed city row: Tokyo
+2026-09-03 11:05:06,944 - INFO - Parsed city row: Sao Paulo
+2026-09-03 11:05:06,944 - INFO - Parsed city row: Paris
+2026-09-03 11:05:06,944 - INFO - Parsed city row: Mumbai
+2026-09-03 11:05:06,944 - INFO - Parsed city row: Beijing
+2026-09-03 11:05:06,944 - INFO - Parsed city row: Sydney
+2026-09-03 11:05:06,944 - INFO - Parsed city row: Mexico City
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Cairo
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Nairobi
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Riyadh
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Berlin
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Johannesburg
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Seoul
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Bangkok
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Rome
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Toronto
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Dubai
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Buenos Aires
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Istanbul
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Moscow
+2026-09-03 11:05:06,945 - INFO - Parsed city row: Kuala Lumpur
+2026-09-03 11:05:06,945 - INFO - Finished CSV parse. 23 cities loaded.
+2026-09-03 11:09:48,048 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 11:09:48,049 - INFO - Parsed city row: New York
+2026-09-03 11:09:48,049 - INFO - Parsed city row: London
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Tokyo
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Sao Paulo
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Paris
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Mumbai
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Beijing
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Sydney
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Mexico City
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Cairo
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Nairobi
+2026-09-03 11:09:48,049 - INFO - Parsed city row: Riyadh
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Berlin
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Johannesburg
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Seoul
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Bangkok
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Rome
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Toronto
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Dubai
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Buenos Aires
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Istanbul
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Moscow
+2026-09-03 11:09:48,050 - INFO - Parsed city row: Kuala Lumpur
+2026-09-03 11:09:48,050 - INFO - Finished CSV parse. 23 cities loaded.
+2026-09-03 11:09:48,052 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 11:09:48,052 - INFO - Weather retrieved for New York: 22.40C, feels like 21.70C, 0.0 mm precipitation, wind 12.50 km/h
+2026-09-03 11:12:15,042 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 11:12:15,043 - INFO - Parsed city row: New York
+2026-09-03 11:12:15,043 - INFO - Parsed city row: London
+2026-09-03 11:12:15,043 - INFO - Parsed city row: Tokyo
+2026-09-03 11:12:15,043 - INFO - Parsed city row: Sao Paulo
+2026-09-03 11:12:15,043 - INFO - Parsed city row: Paris
+2026-09-03 11:12:15,043 - INFO - Parsed city row: Mumbai
+2026-09-03 11:12:15,043 - INFO - Parsed city row: Beijing
+2026-09-03 11:12:15,043 - INFO - Parsed city row: Sydney
+2026-09-03 11:12:15,043 - INFO - Parsed city row: Mexico City
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Cairo
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Nairobi
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Riyadh
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Berlin
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Johannesburg
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Seoul
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Bangkok
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Rome
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Toronto
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Dubai
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Buenos Aires
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Istanbul
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Moscow
+2026-09-03 11:12:15,044 - INFO - Parsed city row: Kuala Lumpur
+2026-09-03 11:12:15,045 - INFO - Finished CSV parse. 23 cities loaded.
+2026-09-03 11:12:15,047 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 11:12:15,047 - INFO - Weather retrieved for New York: 22.40C, feels like 21.70C, 0.0 mm precipitation, wind 12.50 km/h
+2026-09-03 11:14:45,106 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 11:14:45,107 - INFO - Parsed city row: New York
+2026-09-03 11:14:45,107 - INFO - Parsed city row: London
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Tokyo
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Sao Paulo
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Paris
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Mumbai
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Beijing
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Sydney
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Mexico City
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Cairo
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Nairobi
+2026-09-03 11:14:45,107 - INFO - Parsed city row: Riyadh
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Berlin
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Johannesburg
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Seoul
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Bangkok
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Rome
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Toronto
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Dubai
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Buenos Aires
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Istanbul
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Moscow
+2026-09-03 11:14:45,108 - INFO - Parsed city row: Kuala Lumpur
+2026-09-03 11:14:45,108 - INFO - Finished CSV parse. 23 cities loaded.
+2026-09-03 11:14:45,110 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 11:14:45,111 - INFO - Weather retrieved for New York: 22.40C, feels like 21.70C, 0.00 mm precipitation, wind 12.50 km/h
+2026-09-03 11:14:45,112 - INFO - Starting sequential weather fetch for 2 cities.
+2026-09-03 11:14:45,112 - INFO - Processing city 1/2: New York
+2026-09-03 11:14:45,113 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 11:14:45,113 - INFO - Weather retrieved for New York: 20.00C, feels like 20.00C, 1.50 mm precipitation, wind 0.00 km/h
+2026-09-03 11:14:45,113 - INFO - Processing city 2/2: London
+2026-09-03 11:14:45,113 - INFO - Fetching weather for London at 51.5074, -0.1278
+2026-09-03 11:14:45,114 - INFO - Weather retrieved for London: 20.00C, feels like 20.00C, 1.50 mm precipitation, wind 0.00 km/h
+2026-09-03 11:14:45,114 - INFO - Total execution time: 0.00 seconds for 2 cities.
+2026-09-03 11:19:30,364 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 11:19:30,372 - INFO - Parsed city row: New York
+2026-09-03 11:19:30,372 - INFO - Parsed city row: London
+2026-09-03 11:19:30,372 - INFO - Parsed city row: Tokyo
+2026-09-03 11:19:30,372 - INFO - Parsed city row: Sao Paulo
+2026-09-03 11:19:30,372 - INFO - Parsed city row: Paris
+2026-09-03 11:19:30,372 - INFO - Parsed city row: Mumbai
+2026-09-03 11:19:30,372 - INFO - Parsed city row: Beijing
+2026-09-03 11:19:30,372 - INFO - Parsed city row: Sydney
+2026-09-03 11:19:30,372 - INFO - Parsed city row: Mexico City
+2026-09-03 11:19:30,372 - INFO - Parsed city row: Cairo
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Nairobi
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Riyadh
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Berlin
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Johannesburg
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Seoul
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Bangkok
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Rome
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Toronto
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Dubai
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Buenos Aires
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Istanbul
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Moscow
+2026-09-03 11:19:30,373 - INFO - Parsed city row: Kuala Lumpur
+2026-09-03 11:19:30,373 - INFO - Finished CSV parse. 23 cities loaded.
+2026-09-03 11:19:30,376 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 11:19:30,377 - INFO - Weather retrieved for New York: 22.40C, feels like 21.70C, 0.00 mm precipitation, wind 12.50 km/h
+2026-09-03 11:19:30,380 - INFO - Starting sequential weather fetch for 2 cities.
+2026-09-03 11:19:30,380 - INFO - Processing city 1/2: New York
+2026-09-03 11:19:30,380 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 11:19:30,381 - INFO - Weather retrieved for New York: 20.00C, feels like 20.00C, 1.50 mm precipitation, wind 0.00 km/h
+2026-09-03 11:19:30,381 - INFO - Processing city 2/2: London
+2026-09-03 11:19:30,382 - INFO - Fetching weather for London at 51.5074, -0.1278
+2026-09-03 11:19:30,382 - INFO - Weather retrieved for London: 20.00C, feels like 20.00C, 1.50 mm precipitation, wind 0.00 km/h
+2026-09-03 11:19:30,383 - INFO - Total execution time: 0.00 seconds for 2 cities.
