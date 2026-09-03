@@ -21,7 +21,9 @@ logger.propagate = False
 
 if not logger.handlers:
     file_handler = logging.FileHandler(LOG_PATH, encoding="utf-8")
-    file_handler.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
+    file_handler.setFormatter(
+        logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+    )
     logger.addHandler(file_handler)
 
 
@@ -97,15 +99,19 @@ def parse_city_csv(csv_path: str | Path) -> list[dict[str, float | str]]:
                 try:
                     latitude = float(row.get("latitude", "").strip())
                     longitude = float(row.get("longitude", "").strip())
-                except (TypeError, ValueError):
+                    # fmt: off
+                except TypeError, ValueError:
+                    # fmt: on
                     logger.error("Skipping invalid coordinate row for city: %s", row)
                     continue
 
-                rows.append({
-                    "city": city_name,
-                    "latitude": latitude,
-                    "longitude": longitude,
-                })
+                rows.append(
+                    {
+                        "city": city_name,
+                        "latitude": latitude,
+                        "longitude": longitude,
+                    }
+                )
                 logger.info("Parsed city row: %s", city_name)
     except OSError as exc:
         logger.exception("Could not read CSV file: %s", csv_file)
@@ -123,24 +129,34 @@ def parse_hourly_forecast_dataframe(payload: dict, city: str) -> pd.DataFrame:
     precipitation = hourly.get("precipitation", [])
 
     if not times:
-        return pd.DataFrame(columns=["city", "timezone", "time", "temperature_2m", "precipitation"])
+        return pd.DataFrame(
+            columns=["city", "timezone", "time", "temperature_2m", "precipitation"]
+        )
 
     max_len = max(len(times), len(temperatures), len(precipitation))
     records = []
 
     for i in range(max_len):
-        records.append({
-            "city": city,
-            "timezone": payload.get("timezone", "unknown"),
-            "time": times[i] if i < len(times) else pd.NaT,
-            "temperature_2m": temperatures[i] if i < len(temperatures) else None,
-            "precipitation": precipitation[i] if i < len(precipitation) else None,
-        })
+        records.append(
+            {
+                "city": city,
+                "timezone": payload.get("timezone", "unknown"),
+                "time": times[i] if i < len(times) else pd.NaT,
+                "temperature_2m": temperatures[i] if i < len(temperatures) else None,
+                "precipitation": precipitation[i] if i < len(precipitation) else None,
+            }
+        )
 
-    dataframe = pd.DataFrame(records, columns=["city", "timezone", "time", "temperature_2m", "precipitation"])
+    dataframe = pd.DataFrame(
+        records, columns=["city", "timezone", "time", "temperature_2m", "precipitation"]
+    )
     dataframe["time"] = pd.to_datetime(dataframe["time"], errors="coerce")
-    dataframe["temperature_2m"] = pd.to_numeric(dataframe["temperature_2m"], errors="coerce")
-    dataframe["precipitation"] = pd.to_numeric(dataframe["precipitation"], errors="coerce")
+    dataframe["temperature_2m"] = pd.to_numeric(
+        dataframe["temperature_2m"], errors="coerce"
+    )
+    dataframe["precipitation"] = pd.to_numeric(
+        dataframe["precipitation"], errors="coerce"
+    )
 
     for column in ["temperature_2m", "precipitation"]:
         dataframe[column] = dataframe[column].fillna(value=pd.NA)
@@ -148,7 +164,9 @@ def parse_hourly_forecast_dataframe(payload: dict, city: str) -> pd.DataFrame:
     return dataframe
 
 
-def fetch_weather_for_city(city: str, latitude: float, longitude: float) -> dict[str, float | str]:
+def fetch_weather_for_city(
+    city: str, latitude: float, longitude: float
+) -> dict[str, float | str]:
     """Fetch hourly weather data for a city from the Open-Meteo forecast API."""
     refresh_logger_level()
     url = "https://api.open-meteo.com/v1/forecast"
@@ -174,8 +192,16 @@ def fetch_weather_for_city(city: str, latitude: float, longitude: float) -> dict
     precipitation = hourly.get("precipitation", [])
 
     current = payload.get("current", {})
-    temperature = float(temperatures[0]) if temperatures else float(current.get("temperature_2m", 0.0))
-    precipitation_mm = float(precipitation[0]) if precipitation else float(current.get("precipitation", 0.0))
+    temperature = (
+        float(temperatures[0])
+        if temperatures
+        else float(current.get("temperature_2m", 0.0))
+    )
+    precipitation_mm = (
+        float(precipitation[0])
+        if precipitation
+        else float(current.get("precipitation", 0.0))
+    )
     feels_like = float(current.get("apparent_temperature", temperature))
     wind_speed = float(current.get("wind_speed_10m", 0.0))
 
@@ -203,12 +229,18 @@ def fetch_weather_for_city(city: str, latitude: float, longitude: float) -> dict
 def aggregate_daily_weather(forecast_frame: pd.DataFrame) -> pd.DataFrame:
     """Group hourly forecast data by city and day to calculate daily max temperature and total precipitation."""
     if forecast_frame.empty:
-        return pd.DataFrame(columns=["city", "day", "max_temperature_c", "total_precipitation_mm"])
+        return pd.DataFrame(
+            columns=["city", "day", "max_temperature_c", "total_precipitation_mm"]
+        )
 
     aggregated = forecast_frame.copy()
     aggregated["day"] = pd.to_datetime(aggregated["time"]).dt.floor("D")
-    aggregated["temperature_2m"] = pd.to_numeric(aggregated["temperature_2m"], errors="coerce")
-    aggregated["precipitation"] = pd.to_numeric(aggregated["precipitation"], errors="coerce")
+    aggregated["temperature_2m"] = pd.to_numeric(
+        aggregated["temperature_2m"], errors="coerce"
+    )
+    aggregated["precipitation"] = pd.to_numeric(
+        aggregated["precipitation"], errors="coerce"
+    )
 
     summary = (
         aggregated.groupby(["city", "day"], as_index=False)
@@ -229,7 +261,11 @@ def merge_city_weather_metrics(
 ) -> pd.DataFrame:
     """Join normalized city metadata to daily weather summaries using the city name."""
     city_df = city_frame.copy()
-    city_df = city_df[["city", "latitude", "longitude"]].drop_duplicates(subset=["city"]).copy()
+    city_df = (
+        city_df[["city", "latitude", "longitude"]]
+        .drop_duplicates(subset=["city"])
+        .copy()
+    )
 
     merged = city_df.merge(weather_summary, on="city", how="inner")
     merged = merged.sort_values(["city", "day"]).reset_index(drop=True)
@@ -243,15 +279,24 @@ def export_merged_weather_report(
     """Export the final merged city weather data to a formatted Excel report in the reports folder."""
     refresh_logger_level()
 
-    report_path = Path(output_path) if output_path is not None else ROOT_DIR / "reports" / "weather_report.xlsx"
+    report_path = (
+        Path(output_path)
+        if output_path is not None
+        else ROOT_DIR / "reports" / "weather_report.xlsx"
+    )
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     export_data = merged_frame.copy()
     if export_data.empty:
-        logger.warning("No merged weather data to export; creating an empty workbook at %s", report_path)
+        logger.warning(
+            "No merged weather data to export; creating an empty workbook at %s",
+            report_path,
+        )
 
     if "day" in export_data.columns:
-        export_data["day"] = pd.to_datetime(export_data["day"], errors="coerce").dt.strftime("%Y-%m-%d")
+        export_data["day"] = pd.to_datetime(
+            export_data["day"], errors="coerce"
+        ).dt.strftime("%Y-%m-%d")
 
     with pd.ExcelWriter(report_path, engine="openpyxl") as writer:
         export_data.to_excel(writer, index=False, sheet_name="Weather Report")
@@ -269,7 +314,10 @@ def export_merged_weather_report(
 
         for column_cells in worksheet.columns:
             column_letter = column_cells[0].column_letter
-            max_length = max(len(str(cell.value)) if cell.value is not None else 0 for cell in column_cells)
+            max_length = max(
+                len(str(cell.value)) if cell.value is not None else 0
+                for cell in column_cells
+            )
             worksheet.column_dimensions[column_letter].width = min(max_length + 2, 24)
 
     logger.info("Exported merged weather report to %s", report_path)
@@ -284,7 +332,11 @@ def export_hot_city_alerts_json(
     """Export a simplified alert payload listing cities whose daily max temperature exceeds a threshold."""
     refresh_logger_level()
 
-    report_path = Path(output_path) if output_path is not None else ROOT_DIR / "reports" / "weather_alerts.json"
+    report_path = (
+        Path(output_path)
+        if output_path is not None
+        else ROOT_DIR / "reports" / "weather_alerts.json"
+    )
     report_path.parent.mkdir(parents=True, exist_ok=True)
 
     if merged_frame.empty:
@@ -299,19 +351,25 @@ def export_hot_city_alerts_json(
 
     alert_rows = merged_frame.copy()
     if "max_temperature_c" not in alert_rows.columns:
-        raise ValueError("merged_frame must include max_temperature_c for alert filtering")
+        raise ValueError(
+            "merged_frame must include max_temperature_c for alert filtering"
+        )
 
-    filtered = alert_rows.loc[pd.to_numeric(alert_rows["max_temperature_c"], errors="coerce") > threshold_c].copy()
+    filtered = alert_rows.loc[
+        pd.to_numeric(alert_rows["max_temperature_c"], errors="coerce") > threshold_c
+    ].copy()
 
     cities_payload = []
     for _, row in filtered.iterrows():
-        cities_payload.append({
-            "city": row.get("city", ""),
-            "day": row.get("day", ""),
-            "latitude": row.get("latitude"),
-            "longitude": row.get("longitude"),
-            "max_temperature_c": float(row.get("max_temperature_c", 0.0)),
-        })
+        cities_payload.append(
+            {
+                "city": row.get("city", ""),
+                "day": row.get("day", ""),
+                "latitude": row.get("latitude"),
+                "longitude": row.get("longitude"),
+                "max_temperature_c": float(row.get("max_temperature_c", 0.0)),
+            }
+        )
 
     payload = {
         "alert_level": "heat_alert" if cities_payload else "normal",
@@ -320,7 +378,12 @@ def export_hot_city_alerts_json(
     }
 
     report_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
-    logger.info("Exported weather alert payload to %s with %s cities above %.1fC", report_path, len(cities_payload), threshold_c)
+    logger.info(
+        "Exported weather alert payload to %s with %s cities above %.1fC",
+        report_path,
+        len(cities_payload),
+        threshold_c,
+    )
     return report_path
 
 
@@ -332,7 +395,9 @@ def fetch_weather_for_all_cities(
     refresh_logger_level()
 
     if cities is None:
-        csv_file = Path(csv_path) if csv_path else ROOT_DIR / "data" / "raw_cities_dirty.csv"
+        csv_file = (
+            Path(csv_path) if csv_path else ROOT_DIR / "data" / "raw_cities_dirty.csv"
+        )
         cities = parse_city_csv(csv_file)
 
     total_start = time.perf_counter()
@@ -352,7 +417,9 @@ def fetch_weather_for_all_cities(
             logger.error("Failed to fetch weather for %s: %s", city, exc)
 
     elapsed = time.perf_counter() - total_start
-    logger.info("Total execution time: %.2f seconds for %s cities.", elapsed, len(cities))
+    logger.info(
+        "Total execution time: %.2f seconds for %s cities.", elapsed, len(cities)
+    )
     return results
 
 
@@ -367,7 +434,11 @@ if __name__ == "__main__":
                 for forecast in weather_results
                 if isinstance(forecast.get("hourly_forecast"), pd.DataFrame)
             ]
-            hourly_combined = pd.concat(hourly_frames, ignore_index=True) if hourly_frames else pd.DataFrame()
+            hourly_combined = (
+                pd.concat(hourly_frames, ignore_index=True)
+                if hourly_frames
+                else pd.DataFrame()
+            )
             daily_summary = aggregate_daily_weather(hourly_combined)
             final_report = merge_city_weather_metrics(city_frame, daily_summary)
             export_merged_weather_report(final_report)
