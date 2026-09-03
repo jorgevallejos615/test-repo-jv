@@ -50,11 +50,24 @@ def normalize_city_name(raw_name: str) -> str:
     normalized_words = []
 
     for word in words:
-        token = word.lower()
-        if token in {"a", "an", "the", "and", "of"} and len(normalized_words) > 0:
-            normalized_words.append(token)
-        else:
-            normalized_words.append(token.capitalize())
+        if word in {"&"}:
+            normalized_words.append("&")
+            continue
+
+        segments = word.split("-")
+        normalized_segments = []
+
+        for index, segment in enumerate(segments):
+            token = segment.lower()
+            if token in {"a", "an", "the", "and", "of"} and normalized_segments:
+                normalized_segments.append(token)
+            else:
+                normalized_segments.append(token.capitalize())
+
+            if index < len(segments) - 1:
+                normalized_segments.append("-")
+
+        normalized_words.append("".join(normalized_segments))
 
     normalized = " ".join(normalized_words)
     normalized = re.sub(r"\s+([\-&])\s+", r" \1 ", normalized)

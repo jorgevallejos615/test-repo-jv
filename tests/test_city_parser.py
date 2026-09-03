@@ -1,4 +1,5 @@
 from pathlib import Path
+from unittest.mock import Mock, patch
 
 import httpx
 import pandas as pd
@@ -10,9 +11,18 @@ from src.pipeline import (
     fetch_weather_for_all_cities,
     fetch_weather_for_city,
     merge_city_weather_metrics,
+    normalize_city_name,
     parse_city_csv,
     parse_hourly_forecast_dataframe,
 )
+
+
+def test_normalize_city_name_handles_common_dirty_strings():
+    assert normalize_city_name("  ***new york***  ") == "New York"
+    assert normalize_city_name("london & paris") == "London & Paris"
+    assert normalize_city_name("tokyo-city") == "Tokyo-City"
+    assert normalize_city_name("") == ""
+    assert normalize_city_name(None) == ""
 
 
 def test_parse_city_csv_normalizes_dirty_names():
@@ -39,7 +49,7 @@ def test_parse_city_csv_normalizes_dirty_names():
     assert rows[0]["longitude"] == -74.006
 
 
-def test_fetch_weather_for_city_calls_open_meteo(monkeypatch):
+def test_fetch_weather_for_city_calls_open_meteo():
     captured = {}
 
     class FakeResponse:
@@ -69,10 +79,10 @@ def test_fetch_weather_for_city_calls_open_meteo(monkeypatch):
             },
         })
 
-    monkeypatch.setattr(httpx, "get", fake_get)
+    with patch("src.pipeline.httpx.get", side_effect=fake_get) as mocked_get:
+        result = fetch_weather_for_city("New York", 40.7128, -74.006)
 
-    result = fetch_weather_for_city("New York", 40.7128, -74.006)
-
+    assert mocked_get.call_count == 1
     assert captured["url"] == "https://api.open-meteo.com/v1/forecast"
     assert captured["params"]["latitude"] == 40.7128
     assert captured["params"]["longitude"] == -74.006
@@ -84,7 +94,7 @@ def test_fetch_weather_for_city_calls_open_meteo(monkeypatch):
     assert result["wind_speed_kmh"] == 12.5
 
 
-def test_fetch_weather_for_all_cities_runs_sequentially(monkeypatch):
+def test_fetch_weather_for_all_cities_runs_sequentially():
     calls = []
     all_cities = [
         {"city": "New York", "latitude": 40.7128, "longitude": -74.006},
@@ -113,10 +123,10 @@ def test_fetch_weather_for_all_cities_runs_sequentially(monkeypatch):
             "current": {},
         })
 
-    monkeypatch.setattr(httpx, "get", fake_get)
+    with patch("src.pipeline.httpx.get", side_effect=fake_get) as mocked_get:
+        results = fetch_weather_for_all_cities(cities=all_cities)
 
-    results = fetch_weather_for_all_cities(cities=all_cities)
-
+    assert mocked_get.call_count == 2
     assert calls == [(40.7128, -74.006), (51.5074, -0.1278)]
     assert [item["city"] for item in results] == ["New York", "London"]
     assert results[0]["temperature_c"] == 20.0
@@ -174,6 +184,22 @@ def test_aggregate_daily_weather_summarizes_city_day_metrics():
     assert summary["city"].tolist() == ["London", "New York", "New York"]
     assert summary["max_temperature_c"].tolist() == [16.0, 23.0, 19.5]
     assert summary["total_precipitation_mm"].tolist() == [2.0, 1.0, 1.1]
+
+
+def test_aggregate_daily_weather_handles_missing_values_and_sorts_output():
+    frame = pd.DataFrame([
+        {"city": "Paris", "time": pd.Timestamp("2026-09-05 10:00:00"), "temperature_2m": None, "precipitation": 0.6},
+        {"city": "Paris", "time": pd.Timestamp("2026-09-05 11:00:00"), "temperature_2m": 27.5, "precipitation": None},
+        {"city": "Berlin", "time": pd.Timestamp("2026-09-05 09:00:00"), "temperature_2m": 19.0, "precipitation": 0.3},
+        {"city": "Berlin", "time": pd.Timestamp("2026-09-05 10:00:00"), "temperature_2m": 21.0, "precipitation": 0.4},
+    ])
+
+    summary = aggregate_daily_weather(frame)
+
+    assert summary["city"].tolist() == ["Berlin", "Paris"]
+    assert summary["day"].tolist() == ["2026-09-05", "2026-09-05"]
+    assert summary["max_temperature_c"].tolist() == [21.0, 27.5]
+    assert summary["total_precipitation_mm"].tolist() == [0.7, 0.6]
 
 
 def test_merge_city_weather_metrics_maps_city_metadata_to_daily_summary():
