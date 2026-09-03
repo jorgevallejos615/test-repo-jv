@@ -117,14 +117,19 @@ def parse_hourly_forecast_dataframe(payload: dict, city: str) -> pd.DataFrame:
         records.append({
             "city": city,
             "timezone": payload.get("timezone", "unknown"),
-            "time": times[i] if i < len(times) else None,
+            "time": times[i] if i < len(times) else pd.NaT,
             "temperature_2m": temperatures[i] if i < len(temperatures) else None,
             "precipitation": precipitation[i] if i < len(precipitation) else None,
         })
 
     dataframe = pd.DataFrame(records, columns=["city", "timezone", "time", "temperature_2m", "precipitation"])
+    dataframe["time"] = pd.to_datetime(dataframe["time"], errors="coerce")
     dataframe["temperature_2m"] = pd.to_numeric(dataframe["temperature_2m"], errors="coerce")
     dataframe["precipitation"] = pd.to_numeric(dataframe["precipitation"], errors="coerce")
+
+    for column in ["temperature_2m", "precipitation"]:
+        dataframe[column] = dataframe[column].fillna(value=pd.NA)
+
     return dataframe
 
 
@@ -178,6 +183,42 @@ def fetch_weather_for_city(city: str, latitude: float, longitude: float) -> dict
         weather["wind_speed_kmh"],
     )
     return weather
+
+
+def aggregate_daily_weather(forecast_frame: pd.DataFrame) -> pd.DataFrame:
+    """Group hourly forecast data by city and day to calculate daily max temperature and total precipitation."""
+    if forecast_frame.empty:
+        return pd.DataFrame(columns=["city", "day", "max_temperature_c", "total_precipitation_mm"])
+
+    aggregated = forecast_frame.copy()
+    aggregated["day"] = pd.to_datetime(aggregated["time"]).dt.floor("D")
+    aggregated["temperature_2m"] = pd.to_numeric(aggregated["temperature_2m"], errors="coerce")
+    aggregated["precipitation"] = pd.to_numeric(aggregated["precipitation"], errors="coerce")
+
+    summary = (
+        aggregated.groupby(["city", "day"], as_index=False)
+        .agg(
+            max_temperature_c=("temperature_2m", "max"),
+            total_precipitation_mm=("precipitation", "sum"),
+        )
+        .sort_values(["city", "day"])
+        .reset_index(drop=True)
+    )
+    summary["day"] = pd.to_datetime(summary["day"]).dt.strftime("%Y-%m-%d")
+    return summary
+
+
+def merge_city_weather_metrics(
+    city_frame: pd.DataFrame,
+    weather_summary: pd.DataFrame,
+) -> pd.DataFrame:
+    """Join normalized city metadata to daily weather summaries using the city name."""
+    city_df = city_frame.copy()
+    city_df = city_df[["city", "latitude", "longitude"]].drop_duplicates(subset=["city"]).copy()
+
+    merged = city_df.merge(weather_summary, on="city", how="inner")
+    merged = merged.sort_values(["city", "day"]).reset_index(drop=True)
+    return merged
 
 
 def fetch_weather_for_all_cities(

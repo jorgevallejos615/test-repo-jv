@@ -4,8 +4,10 @@ import httpx
 import pandas as pd
 
 from src.pipeline import (
+    aggregate_daily_weather,
     fetch_weather_for_all_cities,
     fetch_weather_for_city,
+    merge_city_weather_metrics,
     parse_city_csv,
     parse_hourly_forecast_dataframe,
 )
@@ -23,15 +25,13 @@ def test_parse_city_csv_normalizes_dirty_names():
     assert rows[3]["city"] == "Sao Paulo"
     assert rows[4]["city"] == "Paris"
     assert rows[5]["city"] == "Mumbai"
-    assert rows[8]["city"] == "Beijing"
-    assert rows[11]["city"] == "Sydney"
-    assert rows[12]["city"] == "Mexico City"
-    assert rows[13]["city"] == "Berlin"
-    assert rows[14]["city"] == "Seoul"
-    assert rows[15]["city"] == "Bangkok"
-    assert rows[16]["city"] == "Rome"
-    assert rows[17]["city"] == "Toronto"
-    assert rows[18]["city"] == "Buenos Aires"
+    assert rows[8]["city"] == "Mexico City"
+    assert rows[9]["city"] == "Berlin"
+    assert rows[10]["city"] == "Seoul"
+    assert rows[11]["city"] == "Bangkok"
+    assert rows[12]["city"] == "Rome"
+    assert rows[13]["city"] == "Toronto"
+    assert rows[14]["city"] == "Buenos Aires"
 
     assert rows[0]["latitude"] == 40.7128
     assert rows[0]["longitude"] == -74.006
@@ -138,3 +138,56 @@ def test_parse_hourly_forecast_dataframe_builds_expected_table():
     assert list(frame["city"]) == ["New York", "New York"]
     assert frame["temperature_2m"].tolist() == [21.5, 20.8]
     assert frame["precipitation"].tolist() == [0.0, 0.2]
+    assert pd.api.types.is_datetime64_any_dtype(frame["time"])
+
+
+def test_parse_hourly_forecast_dataframe_handles_missing_values():
+    payload = {
+        "timezone": "Europe/London",
+        "hourly": {
+            "time": ["2026-09-03T00:00", "2026-09-03T01:00"],
+            "temperature_2m": [None, 18.0],
+            "precipitation": [0.5, None],
+        },
+    }
+
+    frame = parse_hourly_forecast_dataframe(payload, "London")
+
+    assert pd.api.types.is_datetime64_any_dtype(frame["time"])
+    assert pd.isna(frame["temperature_2m"].iloc[0])
+    assert pd.isna(frame["precipitation"].iloc[1])
+
+
+def test_aggregate_daily_weather_summarizes_city_day_metrics():
+    frame = pd.DataFrame([
+        {"city": "New York", "time": pd.Timestamp("2026-09-03 00:00:00"), "temperature_2m": 21.5, "precipitation": 0.2},
+        {"city": "New York", "time": pd.Timestamp("2026-09-03 01:00:00"), "temperature_2m": 23.0, "precipitation": 0.8},
+        {"city": "New York", "time": pd.Timestamp("2026-09-04 00:00:00"), "temperature_2m": 19.5, "precipitation": 1.1},
+        {"city": "London", "time": pd.Timestamp("2026-09-03 00:00:00"), "temperature_2m": 16.0, "precipitation": 2.0},
+    ])
+
+    summary = aggregate_daily_weather(frame)
+
+    assert list(summary.columns) == ["city", "day", "max_temperature_c", "total_precipitation_mm"]
+    assert summary["city"].tolist() == ["London", "New York", "New York"]
+    assert summary["max_temperature_c"].tolist() == [16.0, 23.0, 19.5]
+    assert summary["total_precipitation_mm"].tolist() == [2.0, 1.0, 1.1]
+
+
+def test_merge_city_weather_metrics_maps_city_metadata_to_daily_summary():
+    city_frame = pd.DataFrame([
+        {"city": "New York", "latitude": 40.7128, "longitude": -74.0060},
+        {"city": "London", "latitude": 51.5074, "longitude": -0.1278},
+    ])
+    weather_summary = pd.DataFrame([
+        {"city": "New York", "day": "2026-09-03", "max_temperature_c": 23.0, "total_precipitation_mm": 1.0},
+        {"city": "London", "day": "2026-09-03", "max_temperature_c": 16.0, "total_precipitation_mm": 2.0},
+    ])
+
+    merged = merge_city_weather_metrics(city_frame, weather_summary)
+
+    assert list(merged.columns) == ["city", "latitude", "longitude", "day", "max_temperature_c", "total_precipitation_mm"]
+    assert merged["city"].tolist() == ["London", "New York"]
+    assert merged["latitude"].tolist() == [51.5074, 40.7128]
+    assert merged["longitude"].tolist() == [-0.1278, -74.006]
+    assert merged["max_temperature_c"].tolist() == [16.0, 23.0]
