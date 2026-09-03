@@ -593,3 +593,225 @@
 2026-09-03 13:10:21,238 - INFO - Fetching weather for London at 51.5074, -0.1278
 2026-09-03 13:10:21,240 - INFO - Weather retrieved for London: 20.00C, feels like 20.00C, 1.50 mm precipitation, wind 0.00 km/h
 2026-09-03 13:10:21,240 - INFO - Total execution time: 0.01 seconds for 2 cities.
+2026-09-03 13:15:34,894 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 13:15:34,894 - INFO - Parsed city row: New York
+2026-09-03 13:15:34,894 - INFO - Parsed city row: London
+2026-09-03 13:15:34,894 - INFO - Parsed city row: Tokyo
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Sao Paulo
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Paris
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Mumbai
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Beijing
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Sydney
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Mexico City
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Berlin
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Seoul
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Bangkok
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Rome
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Toronto
+2026-09-03 13:15:34,895 - INFO - Parsed city row: Buenos Aires
+2026-09-03 13:15:34,895 - INFO - Finished CSV parse. 15 cities loaded.
+2026-09-03 13:15:34,897 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 13:15:34,902 - INFO - Weather retrieved for New York: 22.40C, feels like 21.70C, 0.00 mm precipitation, wind 12.50 km/h
+2026-09-03 13:15:34,904 - INFO - Starting sequential weather fetch for 2 cities.
+2026-09-03 13:15:34,904 - INFO - Processing city 1/2: New York
+2026-09-03 13:15:34,904 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 13:15:34,906 - INFO - Weather retrieved for New York: 20.00C, feels like 20.00C, 1.50 mm precipitation, wind 0.00 km/h
+2026-09-03 13:15:34,906 - INFO - Processing city 2/2: London
+2026-09-03 13:15:34,906 - INFO - Fetching weather for London at 51.5074, -0.1278
+2026-09-03 13:15:34,908 - INFO - Weather retrieved for London: 20.00C, feels like 20.00C, 1.50 mm precipitation, wind 0.00 km/h
+2026-09-03 13:15:34,908 - INFO - Total execution time: 0.00 seconds for 2 cities.
+2026-09-03 13:15:35,029 - INFO - Exported merged weather report to C:\Users\RPAEHDEV03\AppData\Local\Temp\2\pytest-of-RPAEHDEV03\pytest-0\test_export_merged_weather_rep0\reports\weather_report.xlsx
+2026-09-03 13:17:30,653 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 13:17:30,654 - INFO - Parsed city row: New York
+2026-09-03 13:17:30,654 - INFO - Parsed city row: London
+2026-09-03 13:17:30,654 - INFO - Parsed city row: Tokyo
+2026-09-03 13:17:30,654 - INFO - Parsed city row: Sao Paulo
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Paris
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Mumbai
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Beijing
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Sydney
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Mexico City
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Berlin
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Seoul
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Bangkok
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Rome
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Toronto
+2026-09-03 13:17:30,655 - INFO - Parsed city row: Buenos Aires
+2026-09-03 13:17:30,655 - INFO - Finished CSV parse. 15 cities loaded.
+2026-09-03 13:17:30,656 - INFO - Starting sequential weather fetch for 15 cities.
+2026-09-03 13:17:30,656 - INFO - Processing city 1/15: New York
+2026-09-03 13:17:30,656 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 13:17:31,681 - INFO - Weather retrieved for New York: 20.50C, feels like 20.50C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:31,681 - INFO - Processing city 2/15: London
+2026-09-03 13:17:31,682 - INFO - Fetching weather for London at 51.5074, -0.1278
+2026-09-03 13:17:32,367 - INFO - Weather retrieved for London: 19.10C, feels like 19.10C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:32,367 - INFO - Processing city 3/15: Tokyo
+2026-09-03 13:17:32,368 - INFO - Fetching weather for Tokyo at 35.6762, 139.6503
+2026-09-03 13:17:33,059 - INFO - Weather retrieved for Tokyo: 22.90C, feels like 22.90C, 0.10 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:33,059 - INFO - Processing city 4/15: Sao Paulo
+2026-09-03 13:17:33,060 - INFO - Fetching weather for Sao Paulo at -23.5505, -46.6333
+2026-09-03 13:17:33,756 - INFO - Weather retrieved for Sao Paulo: 12.60C, feels like 12.60C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:33,756 - INFO - Processing city 5/15: Paris
+2026-09-03 13:17:33,757 - INFO - Fetching weather for Paris at 48.8566, 2.3522
+2026-09-03 13:17:34,453 - INFO - Weather retrieved for Paris: 22.30C, feels like 22.30C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:34,453 - INFO - Processing city 6/15: Mumbai
+2026-09-03 13:17:34,453 - INFO - Fetching weather for Mumbai at 19.0760, 72.8777
+2026-09-03 13:17:35,156 - INFO - Weather retrieved for Mumbai: 25.80C, feels like 25.80C, 0.20 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:35,156 - INFO - Processing city 7/15: Beijing
+2026-09-03 13:17:35,157 - INFO - Fetching weather for Beijing at 39.9042, 116.4074
+2026-09-03 13:17:35,852 - INFO - Weather retrieved for Beijing: 25.20C, feels like 25.20C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:35,853 - INFO - Processing city 8/15: Sydney
+2026-09-03 13:17:35,853 - INFO - Fetching weather for Sydney at -33.8688, 151.2093
+2026-09-03 13:17:36,551 - INFO - Weather retrieved for Sydney: 15.10C, feels like 15.10C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:36,551 - INFO - Processing city 9/15: Mexico City
+2026-09-03 13:17:36,552 - INFO - Fetching weather for Mexico City at 19.4326, -99.1332
+2026-09-03 13:17:37,237 - INFO - Weather retrieved for Mexico City: 15.40C, feels like 15.40C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:37,237 - INFO - Processing city 10/15: Berlin
+2026-09-03 13:17:37,238 - INFO - Fetching weather for Berlin at 52.5200, 13.4050
+2026-09-03 13:17:37,919 - INFO - Weather retrieved for Berlin: 17.10C, feels like 17.10C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:37,920 - INFO - Processing city 11/15: Seoul
+2026-09-03 13:17:37,920 - INFO - Fetching weather for Seoul at 37.5665, 126.9780
+2026-09-03 13:17:38,610 - INFO - Weather retrieved for Seoul: 22.60C, feels like 22.60C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:38,610 - INFO - Processing city 12/15: Bangkok
+2026-09-03 13:17:38,611 - INFO - Fetching weather for Bangkok at 13.7563, 100.5018
+2026-09-03 13:17:39,305 - INFO - Weather retrieved for Bangkok: 27.00C, feels like 27.00C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:39,305 - INFO - Processing city 13/15: Rome
+2026-09-03 13:17:39,306 - INFO - Fetching weather for Rome at 41.9028, 12.4964
+2026-09-03 13:17:40,003 - INFO - Weather retrieved for Rome: 23.90C, feels like 23.90C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:40,003 - INFO - Processing city 14/15: Toronto
+2026-09-03 13:17:40,004 - INFO - Fetching weather for Toronto at 43.6532, -79.3832
+2026-09-03 13:17:40,709 - INFO - Weather retrieved for Toronto: 20.10C, feels like 20.10C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:40,709 - INFO - Processing city 15/15: Buenos Aires
+2026-09-03 13:17:40,709 - INFO - Fetching weather for Buenos Aires at -34.6037, -58.3816
+2026-09-03 13:17:41,415 - INFO - Weather retrieved for Buenos Aires: 15.80C, feels like 15.80C, 1.10 mm precipitation, wind 0.00 km/h
+2026-09-03 13:17:41,415 - INFO - Total execution time: 10.76 seconds for 15 cities.
+2026-09-03 13:17:41,416 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 13:17:41,416 - INFO - Parsed city row: New York
+2026-09-03 13:17:41,416 - INFO - Parsed city row: London
+2026-09-03 13:17:41,416 - INFO - Parsed city row: Tokyo
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Sao Paulo
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Paris
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Mumbai
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Beijing
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Sydney
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Mexico City
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Berlin
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Seoul
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Bangkok
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Rome
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Toronto
+2026-09-03 13:17:41,417 - INFO - Parsed city row: Buenos Aires
+2026-09-03 13:17:41,417 - INFO - Finished CSV parse. 15 cities loaded.
+2026-09-03 13:17:41,487 - INFO - Exported merged weather report to C:\Users\RPAEHDEV03\python_weather_app\reports\weather_report.xlsx
+2026-09-03 13:24:47,544 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 13:24:47,545 - INFO - Parsed city row: New York
+2026-09-03 13:24:47,545 - INFO - Parsed city row: London
+2026-09-03 13:24:47,545 - INFO - Parsed city row: Tokyo
+2026-09-03 13:24:47,545 - INFO - Parsed city row: Sao Paulo
+2026-09-03 13:24:47,545 - INFO - Parsed city row: Paris
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Mumbai
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Beijing
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Sydney
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Mexico City
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Berlin
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Seoul
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Bangkok
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Rome
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Toronto
+2026-09-03 13:24:47,546 - INFO - Parsed city row: Buenos Aires
+2026-09-03 13:24:47,546 - INFO - Finished CSV parse. 15 cities loaded.
+2026-09-03 13:24:47,548 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 13:24:47,553 - INFO - Weather retrieved for New York: 22.40C, feels like 21.70C, 0.00 mm precipitation, wind 12.50 km/h
+2026-09-03 13:24:47,555 - INFO - Starting sequential weather fetch for 2 cities.
+2026-09-03 13:24:47,555 - INFO - Processing city 1/2: New York
+2026-09-03 13:24:47,556 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 13:24:47,557 - INFO - Weather retrieved for New York: 20.00C, feels like 20.00C, 1.50 mm precipitation, wind 0.00 km/h
+2026-09-03 13:24:47,557 - INFO - Processing city 2/2: London
+2026-09-03 13:24:47,558 - INFO - Fetching weather for London at 51.5074, -0.1278
+2026-09-03 13:24:47,560 - INFO - Weather retrieved for London: 20.00C, feels like 20.00C, 1.50 mm precipitation, wind 0.00 km/h
+2026-09-03 13:24:47,560 - INFO - Total execution time: 0.00 seconds for 2 cities.
+2026-09-03 13:24:47,614 - INFO - Exported merged weather report to C:\Users\RPAEHDEV03\AppData\Local\Temp\2\pytest-of-RPAEHDEV03\pytest-1\test_export_merged_weather_rep0\reports\weather_report.xlsx
+2026-09-03 13:24:47,635 - INFO - Exported weather alert payload to C:\Users\RPAEHDEV03\AppData\Local\Temp\2\pytest-of-RPAEHDEV03\pytest-1\test_export_hot_city_alerts_js0\reports\weather_alerts.json with 1 cities above 30.0C
+2026-09-03 13:25:15,827 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 13:25:15,828 - INFO - Parsed city row: New York
+2026-09-03 13:25:15,828 - INFO - Parsed city row: London
+2026-09-03 13:25:15,828 - INFO - Parsed city row: Tokyo
+2026-09-03 13:25:15,828 - INFO - Parsed city row: Sao Paulo
+2026-09-03 13:25:15,828 - INFO - Parsed city row: Paris
+2026-09-03 13:25:15,828 - INFO - Parsed city row: Mumbai
+2026-09-03 13:25:15,828 - INFO - Parsed city row: Beijing
+2026-09-03 13:25:15,828 - INFO - Parsed city row: Sydney
+2026-09-03 13:25:15,828 - INFO - Parsed city row: Mexico City
+2026-09-03 13:25:15,828 - INFO - Parsed city row: Berlin
+2026-09-03 13:25:15,828 - INFO - Parsed city row: Seoul
+2026-09-03 13:25:15,829 - INFO - Parsed city row: Bangkok
+2026-09-03 13:25:15,829 - INFO - Parsed city row: Rome
+2026-09-03 13:25:15,829 - INFO - Parsed city row: Toronto
+2026-09-03 13:25:15,829 - INFO - Parsed city row: Buenos Aires
+2026-09-03 13:25:15,829 - INFO - Finished CSV parse. 15 cities loaded.
+2026-09-03 13:25:15,829 - INFO - Starting sequential weather fetch for 15 cities.
+2026-09-03 13:25:15,829 - INFO - Processing city 1/15: New York
+2026-09-03 13:25:15,829 - INFO - Fetching weather for New York at 40.7128, -74.0060
+2026-09-03 13:25:16,617 - INFO - Weather retrieved for New York: 20.50C, feels like 20.50C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:16,617 - INFO - Processing city 2/15: London
+2026-09-03 13:25:16,617 - INFO - Fetching weather for London at 51.5074, -0.1278
+2026-09-03 13:25:17,309 - INFO - Weather retrieved for London: 19.10C, feels like 19.10C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:17,309 - INFO - Processing city 3/15: Tokyo
+2026-09-03 13:25:17,309 - INFO - Fetching weather for Tokyo at 35.6762, 139.6503
+2026-09-03 13:25:18,015 - INFO - Weather retrieved for Tokyo: 22.90C, feels like 22.90C, 0.10 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:18,016 - INFO - Processing city 4/15: Sao Paulo
+2026-09-03 13:25:18,016 - INFO - Fetching weather for Sao Paulo at -23.5505, -46.6333
+2026-09-03 13:25:18,714 - INFO - Weather retrieved for Sao Paulo: 12.60C, feels like 12.60C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:18,714 - INFO - Processing city 5/15: Paris
+2026-09-03 13:25:18,715 - INFO - Fetching weather for Paris at 48.8566, 2.3522
+2026-09-03 13:25:19,408 - INFO - Weather retrieved for Paris: 22.30C, feels like 22.30C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:19,409 - INFO - Processing city 6/15: Mumbai
+2026-09-03 13:25:19,409 - INFO - Fetching weather for Mumbai at 19.0760, 72.8777
+2026-09-03 13:25:20,119 - INFO - Weather retrieved for Mumbai: 25.80C, feels like 25.80C, 0.20 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:20,120 - INFO - Processing city 7/15: Beijing
+2026-09-03 13:25:20,120 - INFO - Fetching weather for Beijing at 39.9042, 116.4074
+2026-09-03 13:25:20,803 - INFO - Weather retrieved for Beijing: 25.20C, feels like 25.20C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:20,803 - INFO - Processing city 8/15: Sydney
+2026-09-03 13:25:20,804 - INFO - Fetching weather for Sydney at -33.8688, 151.2093
+2026-09-03 13:25:21,507 - INFO - Weather retrieved for Sydney: 15.10C, feels like 15.10C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:21,507 - INFO - Processing city 9/15: Mexico City
+2026-09-03 13:25:21,508 - INFO - Fetching weather for Mexico City at 19.4326, -99.1332
+2026-09-03 13:25:22,208 - INFO - Weather retrieved for Mexico City: 15.40C, feels like 15.40C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:22,208 - INFO - Processing city 10/15: Berlin
+2026-09-03 13:25:22,209 - INFO - Fetching weather for Berlin at 52.5200, 13.4050
+2026-09-03 13:25:22,913 - INFO - Weather retrieved for Berlin: 17.10C, feels like 17.10C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:22,913 - INFO - Processing city 11/15: Seoul
+2026-09-03 13:25:22,914 - INFO - Fetching weather for Seoul at 37.5665, 126.9780
+2026-09-03 13:25:23,623 - INFO - Weather retrieved for Seoul: 22.60C, feels like 22.60C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:23,623 - INFO - Processing city 12/15: Bangkok
+2026-09-03 13:25:23,623 - INFO - Fetching weather for Bangkok at 13.7563, 100.5018
+2026-09-03 13:25:24,333 - INFO - Weather retrieved for Bangkok: 27.00C, feels like 27.00C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:24,333 - INFO - Processing city 13/15: Rome
+2026-09-03 13:25:24,334 - INFO - Fetching weather for Rome at 41.9028, 12.4964
+2026-09-03 13:25:25,037 - INFO - Weather retrieved for Rome: 23.90C, feels like 23.90C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:25,037 - INFO - Processing city 14/15: Toronto
+2026-09-03 13:25:25,038 - INFO - Fetching weather for Toronto at 43.6532, -79.3832
+2026-09-03 13:25:25,736 - INFO - Weather retrieved for Toronto: 20.10C, feels like 20.10C, 0.00 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:25,736 - INFO - Processing city 15/15: Buenos Aires
+2026-09-03 13:25:25,737 - INFO - Fetching weather for Buenos Aires at -34.6037, -58.3816
+2026-09-03 13:25:26,442 - INFO - Weather retrieved for Buenos Aires: 15.80C, feels like 15.80C, 1.10 mm precipitation, wind 0.00 km/h
+2026-09-03 13:25:26,442 - INFO - Total execution time: 10.61 seconds for 15 cities.
+2026-09-03 13:25:26,442 - INFO - Starting CSV parse for C:\Users\RPAEHDEV03\python_weather_app\data\raw_cities_dirty.csv
+2026-09-03 13:25:26,443 - INFO - Parsed city row: New York
+2026-09-03 13:25:26,443 - INFO - Parsed city row: London
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Tokyo
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Sao Paulo
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Paris
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Mumbai
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Beijing
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Sydney
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Mexico City
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Berlin
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Seoul
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Bangkok
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Rome
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Toronto
+2026-09-03 13:25:26,443 - INFO - Parsed city row: Buenos Aires
+2026-09-03 13:25:26,443 - INFO - Finished CSV parse. 15 cities loaded.
+2026-09-03 13:25:26,506 - INFO - Exported merged weather report to C:\Users\RPAEHDEV03\python_weather_app\reports\weather_report.xlsx
+2026-09-03 13:25:26,509 - INFO - Exported weather alert payload to C:\Users\RPAEHDEV03\python_weather_app\reports\weather_alerts.json with 21 cities above 30.0C

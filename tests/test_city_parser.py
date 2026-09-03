@@ -5,6 +5,8 @@ import pandas as pd
 
 from src.pipeline import (
     aggregate_daily_weather,
+    export_hot_city_alerts_json,
+    export_merged_weather_report,
     fetch_weather_for_all_cities,
     fetch_weather_for_city,
     merge_city_weather_metrics,
@@ -191,3 +193,75 @@ def test_merge_city_weather_metrics_maps_city_metadata_to_daily_summary():
     assert merged["latitude"].tolist() == [51.5074, 40.7128]
     assert merged["longitude"].tolist() == [-0.1278, -74.006]
     assert merged["max_temperature_c"].tolist() == [16.0, 23.0]
+
+
+def test_export_merged_weather_report_creates_xlsx_file(tmp_path):
+    merged = pd.DataFrame([
+        {
+            "city": "New York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "day": "2026-09-03",
+            "max_temperature_c": 23.0,
+            "total_precipitation_mm": 1.2,
+        },
+        {
+            "city": "London",
+            "latitude": 51.5074,
+            "longitude": -0.1278,
+            "day": "2026-09-03",
+            "max_temperature_c": 16.0,
+            "total_precipitation_mm": 2.0,
+        },
+    ])
+
+    report_path = tmp_path / "reports" / "weather_report.xlsx"
+    result_path = export_merged_weather_report(merged, report_path)
+
+    assert result_path == report_path
+    assert result_path.exists()
+    assert result_path.suffix == ".xlsx"
+
+    reloaded = pd.read_excel(result_path)
+    assert list(reloaded.columns) == [
+        "city",
+        "latitude",
+        "longitude",
+        "day",
+        "max_temperature_c",
+        "total_precipitation_mm",
+    ]
+    assert len(reloaded) == 2
+
+
+def test_export_hot_city_alerts_json_creates_simplified_payload(tmp_path):
+    merged = pd.DataFrame([
+        {
+            "city": "New York",
+            "latitude": 40.7128,
+            "longitude": -74.006,
+            "day": "2026-09-03",
+            "max_temperature_c": 32.4,
+            "total_precipitation_mm": 1.2,
+        },
+        {
+            "city": "London",
+            "latitude": 51.5074,
+            "longitude": -0.1278,
+            "day": "2026-09-03",
+            "max_temperature_c": 28.0,
+            "total_precipitation_mm": 2.0,
+        },
+    ])
+
+    alert_path = tmp_path / "reports" / "weather_alerts.json"
+    result_path = export_hot_city_alerts_json(merged, alert_path, threshold_c=30)
+
+    assert result_path == alert_path
+    assert result_path.exists()
+    assert result_path.suffix == ".json"
+
+    payload = result_path.read_text(encoding="utf-8")
+    assert "New York" in payload
+    assert "32.4" in payload
+    assert "London" not in payload

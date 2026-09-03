@@ -1,4 +1,5 @@
 import csv
+import json
 import logging
 import os
 import re
@@ -8,6 +9,7 @@ from pathlib import Path
 import httpx
 import pandas as pd
 from dotenv import load_dotenv
+from openpyxl.styles import Alignment, Font, PatternFill
 
 ROOT_DIR = Path(__file__).resolve().parents[1]
 LOG_PATH = ROOT_DIR / "pipeline.log"
@@ -221,6 +223,94 @@ def merge_city_weather_metrics(
     return merged
 
 
+def export_merged_weather_report(
+    merged_frame: pd.DataFrame,
+    output_path: str | Path | None = None,
+) -> Path:
+    """Export the final merged city weather data to a formatted Excel report in the reports folder."""
+    refresh_logger_level()
+
+    report_path = Path(output_path) if output_path is not None else ROOT_DIR / "reports" / "weather_report.xlsx"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+
+    export_data = merged_frame.copy()
+    if export_data.empty:
+        logger.warning("No merged weather data to export; creating an empty workbook at %s", report_path)
+
+    if "day" in export_data.columns:
+        export_data["day"] = pd.to_datetime(export_data["day"], errors="coerce").dt.strftime("%Y-%m-%d")
+
+    with pd.ExcelWriter(report_path, engine="openpyxl") as writer:
+        export_data.to_excel(writer, index=False, sheet_name="Weather Report")
+        worksheet = writer.sheets["Weather Report"]
+        header_fill = PatternFill(fill_type="solid", fgColor="1F4E78")
+        header_font = Font(bold=True, color="FFFFFF")
+
+        for cell in worksheet[1]:
+            cell.fill = header_fill
+            cell.font = header_font
+            cell.alignment = Alignment(horizontal="center", vertical="center")
+
+        worksheet.freeze_panes = "A2"
+        worksheet.auto_filter.ref = worksheet.dimensions
+
+        for column_cells in worksheet.columns:
+            column_letter = column_cells[0].column_letter
+            max_length = max(len(str(cell.value)) if cell.value is not None else 0 for cell in column_cells)
+            worksheet.column_dimensions[column_letter].width = min(max_length + 2, 24)
+
+    logger.info("Exported merged weather report to %s", report_path)
+    return report_path
+
+
+def export_hot_city_alerts_json(
+    merged_frame: pd.DataFrame,
+    output_path: str | Path | None = None,
+    threshold_c: float = 30.0,
+) -> Path:
+    """Export a simplified alert payload listing cities whose daily max temperature exceeds a threshold."""
+    refresh_logger_level()
+
+    report_path = Path(output_path) if output_path is not None else ROOT_DIR / "reports" / "weather_alerts.json"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if merged_frame.empty:
+        payload = {
+            "alert_level": "info",
+            "threshold_c": threshold_c,
+            "cities": [],
+        }
+        report_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        logger.info("Wrote empty alert payload to %s", report_path)
+        return report_path
+
+    alert_rows = merged_frame.copy()
+    if "max_temperature_c" not in alert_rows.columns:
+        raise ValueError("merged_frame must include max_temperature_c for alert filtering")
+
+    filtered = alert_rows.loc[pd.to_numeric(alert_rows["max_temperature_c"], errors="coerce") > threshold_c].copy()
+
+    cities_payload = []
+    for _, row in filtered.iterrows():
+        cities_payload.append({
+            "city": row.get("city", ""),
+            "day": row.get("day", ""),
+            "latitude": row.get("latitude"),
+            "longitude": row.get("longitude"),
+            "max_temperature_c": float(row.get("max_temperature_c", 0.0)),
+        })
+
+    payload = {
+        "alert_level": "heat_alert" if cities_payload else "normal",
+        "threshold_c": threshold_c,
+        "cities": cities_payload,
+    }
+
+    report_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+    logger.info("Exported weather alert payload to %s with %s cities above %.1fC", report_path, len(cities_payload), threshold_c)
+    return report_path
+
+
 def fetch_weather_for_all_cities(
     cities: list[dict[str, float | str]] | None = None,
     csv_path: str | Path | None = None,
@@ -257,6 +347,18 @@ if __name__ == "__main__":
     example_path = ROOT_DIR / "data" / "raw_cities_dirty.csv"
     try:
         weather_results = fetch_weather_for_all_cities(csv_path=example_path)
+        if weather_results:
+            city_frame = pd.DataFrame(parse_city_csv(example_path))
+            hourly_frames = [
+                forecast["hourly_forecast"]
+                for forecast in weather_results
+                if isinstance(forecast.get("hourly_forecast"), pd.DataFrame)
+            ]
+            hourly_combined = pd.concat(hourly_frames, ignore_index=True) if hourly_frames else pd.DataFrame()
+            daily_summary = aggregate_daily_weather(hourly_combined)
+            final_report = merge_city_weather_metrics(city_frame, daily_summary)
+            export_merged_weather_report(final_report)
+            export_hot_city_alerts_json(final_report, threshold_c=30.0)
         print(f"Fetched weather for {len(weather_results)} cities.")
     except FileNotFoundError:
         logger.error("Execution failed because the input CSV was missing.")
