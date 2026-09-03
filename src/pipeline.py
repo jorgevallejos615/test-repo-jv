@@ -109,7 +109,7 @@ def parse_city_csv(csv_path: str | Path) -> list[dict[str, float | str]]:
                 logger.info("Parsed city row: %s", city_name)
     except OSError as exc:
         logger.exception("Could not read CSV file: %s", csv_file)
-        raise exc
+        raise RuntimeError(f"Failed to read CSV file: {csv_file}") from exc
 
     logger.info("Finished CSV parse. %s cities loaded.", len(rows))
     return rows
