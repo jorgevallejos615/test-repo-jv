@@ -23,14 +23,15 @@ def test_parse_city_csv_normalizes_dirty_names():
     assert rows[3]["city"] == "Sao Paulo"
     assert rows[4]["city"] == "Paris"
     assert rows[5]["city"] == "Mumbai"
-    assert rows[8]["city"] == "Mexico City"
-    assert rows[11]["city"] == "Riyadh"
-    assert rows[12]["city"] == "Berlin"
-    assert rows[13]["city"] == "Johannesburg"
+    assert rows[8]["city"] == "Beijing"
+    assert rows[11]["city"] == "Sydney"
+    assert rows[12]["city"] == "Mexico City"
+    assert rows[13]["city"] == "Berlin"
     assert rows[14]["city"] == "Seoul"
     assert rows[15]["city"] == "Bangkok"
     assert rows[16]["city"] == "Rome"
     assert rows[17]["city"] == "Toronto"
+    assert rows[18]["city"] == "Buenos Aires"
 
     assert rows[0]["latitude"] == 40.7128
     assert rows[0]["longitude"] == -74.006
