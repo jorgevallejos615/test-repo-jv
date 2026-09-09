@@ -11,14 +11,15 @@ import pandas as pd
 from dotenv import load_dotenv
 from openpyxl.styles import Alignment, Font, PatternFill
 
+#Global constants for file paths and logger configuration
 ROOT_DIR = Path(__file__).resolve().parents[1]
 LOG_PATH = ROOT_DIR / "pipeline.log"
 DOTENV_PATH = ROOT_DIR / ".env"
-
 logger = logging.getLogger("weather_pipeline")
 logger.setLevel(logging.INFO)
 logger.propagate = False
 
+#Logger configuration to write logs to a file with a specific format
 if not logger.handlers:
     file_handler = logging.FileHandler(LOG_PATH, encoding="utf-8")
     file_handler.setFormatter(
@@ -26,7 +27,7 @@ if not logger.handlers:
     )
     logger.addHandler(file_handler)
 
-
+#Load environment variables from the .env file to allow dynamic configuration
 def refresh_logger_level() -> None:
     """Refresh the logger level from the .env file so runtime config stays dynamic."""
     load_dotenv(DOTENV_PATH)
@@ -34,7 +35,7 @@ def refresh_logger_level() -> None:
     level = getattr(logging, level_name, logging.INFO)
     logger.setLevel(level)
 
-
+#Normalize city names to a clean title-cased format, handling special cases and removing unwanted characters
 def normalize_city_name(raw_name: str) -> str:
     """Normalize city names from messy CSV input into a clean title-cased format."""
     if raw_name is None:
@@ -75,7 +76,7 @@ def normalize_city_name(raw_name: str) -> str:
     normalized = re.sub(r"\s+([\-&])\s+", r" \1 ", normalized)
     return normalized.strip()
 
-
+#Parse a CSV file containing city data, ensuring that the coordinates are numeric and the city names are normalized
 def parse_city_csv(csv_path: str | Path) -> list[dict[str, float | str]]:
     """Read a CSV file and return cleaned city rows with numeric coordinates."""
     refresh_logger_level()
@@ -120,7 +121,7 @@ def parse_city_csv(csv_path: str | Path) -> list[dict[str, float | str]]:
     logger.info("Finished CSV parse. %s cities loaded.", len(rows))
     return rows
 
-
+#Parse the hourly forecast data from the Open-Meteo API response into a structured pandas DataFrame
 def parse_hourly_forecast_dataframe(payload: dict, city: str) -> pd.DataFrame:
     """Convert an Open-Meteo hourly forecast payload into a pandas DataFrame."""
     hourly = payload.get("hourly", {})
@@ -163,7 +164,7 @@ def parse_hourly_forecast_dataframe(payload: dict, city: str) -> pd.DataFrame:
 
     return dataframe
 
-
+#Fetch hourly weather data for a specific city using the Open-Meteo API, handling errors and logging the process
 def fetch_weather_for_city(
     city: str, latitude: float, longitude: float
 ) -> dict[str, float | str]:
@@ -225,7 +226,7 @@ def fetch_weather_for_city(
     )
     return weather
 
-
+#Aggregate hourly forecast data into daily summaries, calculating max temperature and total precipitation for each city and day
 def aggregate_daily_weather(forecast_frame: pd.DataFrame) -> pd.DataFrame:
     """Group hourly forecast data by city and day to calculate daily max temperature and total precipitation."""
     if forecast_frame.empty:
@@ -254,7 +255,7 @@ def aggregate_daily_weather(forecast_frame: pd.DataFrame) -> pd.DataFrame:
     summary["day"] = pd.to_datetime(summary["day"]).dt.strftime("%Y-%m-%d")
     return summary
 
-
+#Merge normalized city metadata with daily weather summaries, ensuring that the resulting DataFrame is sorted and ready for reporting
 def merge_city_weather_metrics(
     city_frame: pd.DataFrame,
     weather_summary: pd.DataFrame,
@@ -271,7 +272,7 @@ def merge_city_weather_metrics(
     merged = merged.sort_values(["city", "day"]).reset_index(drop=True)
     return merged
 
-
+#Export the final merged city weather data to a formatted Excel report in the reports folder
 def export_merged_weather_report(
     merged_frame: pd.DataFrame,
     output_path: str | Path | None = None,
@@ -323,7 +324,7 @@ def export_merged_weather_report(
     logger.info("Exported merged weather report to %s", report_path)
     return report_path
 
-
+#Export a simplified alert payload listing cities whose daily max temperature exceeds a threshold
 def export_hot_city_alerts_json(
     merged_frame: pd.DataFrame,
     output_path: str | Path | None = None,
@@ -386,7 +387,7 @@ def export_hot_city_alerts_json(
     )
     return report_path
 
-
+#Fetch weather data for all cities in the dataset, logging progress and handling errors for individual city requests
 def fetch_weather_for_all_cities(
     cities: list[dict[str, float | str]] | None = None,
     csv_path: str | Path | None = None,
