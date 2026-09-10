@@ -4,6 +4,7 @@ from unittest.mock import Mock, patch
 import httpx
 import pandas as pd
 
+#Import the functions to be tested from the src.pipeline module
 from src.pipeline import (
     aggregate_daily_weather,
     export_hot_city_alerts_json,
@@ -16,7 +17,7 @@ from src.pipeline import (
     parse_hourly_forecast_dataframe,
 )
 
-
+#Normalize city names by stripping whitespace, removing special characters, and capitalizing words
 def test_normalize_city_name_handles_common_dirty_strings():
     assert normalize_city_name("  ***new york***  ") == "New York"
     assert normalize_city_name("london & paris") == "London & Paris"
@@ -24,7 +25,7 @@ def test_normalize_city_name_handles_common_dirty_strings():
     assert normalize_city_name("") == ""
     assert normalize_city_name(None) == ""
 
-
+#Parse a CSV file containing city data and ensure that the resulting list of dictionaries has the expected structure and values
 def test_parse_city_csv_normalizes_dirty_names():
     csv_path = Path(__file__).resolve().parents[1] / "data" / "raw_cities_dirty.csv"
 
@@ -48,7 +49,7 @@ def test_parse_city_csv_normalizes_dirty_names():
     assert rows[0]["latitude"] == 40.7128
     assert rows[0]["longitude"] == -74.006
 
-
+#Fetch weather data for a specific city using the Open-Meteo API, ensuring that the correct URL and parameters are used and that the response is parsed correctly
 def test_fetch_weather_for_city_calls_open_meteo():
     captured = {}
 
@@ -93,7 +94,7 @@ def test_fetch_weather_for_city_calls_open_meteo():
     assert result["precipitation_mm"] == 0.0
     assert result["wind_speed_kmh"] == 12.5
 
-
+#Fetch weather data for all cities in the dataset, ensuring that the function runs sequentially and returns the expected results for each city
 def test_fetch_weather_for_all_cities_runs_sequentially():
     calls = []
     all_cities = [
@@ -132,7 +133,7 @@ def test_fetch_weather_for_all_cities_runs_sequentially():
     assert results[0]["temperature_c"] == 20.0
     assert len(results) == 2
 
-
+#Parse the hourly forecast payload into a DataFrame, ensuring that the resulting table has the expected columns, data types, and values
 def test_parse_hourly_forecast_dataframe_builds_expected_table():
     payload = {
         "timezone": "America/New_York",
@@ -152,7 +153,7 @@ def test_parse_hourly_forecast_dataframe_builds_expected_table():
     assert frame["precipitation"].tolist() == [0.0, 0.2]
     assert pd.api.types.is_datetime64_any_dtype(frame["time"])
 
-
+#Parse the hourly forecast payload into a DataFrame, ensuring that missing values are handled correctly and represented as NaN in the resulting table
 def test_parse_hourly_forecast_dataframe_handles_missing_values():
     payload = {
         "timezone": "Europe/London",
@@ -169,7 +170,7 @@ def test_parse_hourly_forecast_dataframe_handles_missing_values():
     assert pd.isna(frame["temperature_2m"].iloc[0])
     assert pd.isna(frame["precipitation"].iloc[1])
 
-
+#Aggregate the hourly weather data into daily summaries, ensuring that the maximum temperature and total precipitation are calculated correctly for each city and day
 def test_aggregate_daily_weather_summarizes_city_day_metrics():
     frame = pd.DataFrame([
         {"city": "New York", "time": pd.Timestamp("2026-09-03 00:00:00"), "temperature_2m": 21.5, "precipitation": 0.2},
@@ -185,7 +186,7 @@ def test_aggregate_daily_weather_summarizes_city_day_metrics():
     assert summary["max_temperature_c"].tolist() == [16.0, 23.0, 19.5]
     assert summary["total_precipitation_mm"].tolist() == [2.0, 1.0, 1.1]
 
-
+#Aggregate the hourly weather data into daily summaries, ensuring that missing values are handled correctly and that the output is sorted by city and day
 def test_aggregate_daily_weather_handles_missing_values_and_sorts_output():
     frame = pd.DataFrame([
         {"city": "Paris", "time": pd.Timestamp("2026-09-05 10:00:00"), "temperature_2m": None, "precipitation": 0.6},
@@ -201,7 +202,7 @@ def test_aggregate_daily_weather_handles_missing_values_and_sorts_output():
     assert summary["max_temperature_c"].tolist() == [21.0, 27.5]
     assert summary["total_precipitation_mm"].tolist() == [0.7, 0.6]
 
-
+#Merge city metadata with daily weather summaries, ensuring that the resulting DataFrame contains all expected columns and rows
 def test_merge_city_weather_metrics_maps_city_metadata_to_daily_summary():
     city_frame = pd.DataFrame([
         {"city": "New York", "latitude": 40.7128, "longitude": -74.0060},
@@ -220,7 +221,7 @@ def test_merge_city_weather_metrics_maps_city_metadata_to_daily_summary():
     assert merged["longitude"].tolist() == [-0.1278, -74.006]
     assert merged["max_temperature_c"].tolist() == [16.0, 23.0]
 
-
+#Export the merged weather report to an Excel file, ensuring that the file is created successfully and that the contents match the expected structure and values
 def test_export_merged_weather_report_creates_xlsx_file(tmp_path):
     merged = pd.DataFrame([
         {
@@ -259,7 +260,7 @@ def test_export_merged_weather_report_creates_xlsx_file(tmp_path):
     ]
     assert len(reloaded) == 2
 
-
+#Export a simplified alert payload listing cities whose daily max temperature exceeds a threshold, ensuring that only the relevant cities are included in the output JSON file
 def test_export_hot_city_alerts_json_creates_simplified_payload(tmp_path):
     merged = pd.DataFrame([
         {
