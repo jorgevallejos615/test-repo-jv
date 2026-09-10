@@ -226,6 +226,7 @@ def fetch_weather_for_city(
     )
     return weather
 
+
 #Aggregate hourly forecast data into daily summaries, calculating max temperature and total precipitation for each city and day
 def aggregate_daily_weather(forecast_frame: pd.DataFrame) -> pd.DataFrame:
     """Group hourly forecast data by city and day to calculate daily max temperature and total precipitation."""
