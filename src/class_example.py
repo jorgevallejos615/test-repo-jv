@@ -8,15 +8,16 @@ class Guitar:
     def display_info(self):
         print(f"Brand: {self.brand}, Model: {self.model}, Price: ${self.price}")
 
-    #Methods
+    # Methods
     def play(self):
-        print(f"{self.brand} {self.model} is playing a beautiful melody.")
+        print(f"{self.brand} {self.model} is playing a transcendental melody.")
 
-#Object instantiation
+
+# Object instantiation
 guitar1 = Guitar("Schecter", "Hell Raiser", 1000)
 guitar2 = Guitar("Alhambra", "Semi Concert", 500)
 
-#Calling methods    
+# Calling methods
 guitar1.play()
 guitar2.play()
 
